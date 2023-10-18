@@ -43,7 +43,7 @@ def generate_md(filter, previous):
               '<!--⬇️ Template heatmap here ⬇️ -->\n', '\n',
               '---\n', '\n']
     f.writelines(header)
-    for category in ['Dance', 'Sex & Dance', 'Dance + Omake']:
+    for category in ['Dance', 'Sex & Dance', 'Dance + Omake', 'Paid Videos']:
       df_categorized = df_filtered[df_filtered["category"] == category]
       if not df_categorized.empty:
         f.write('[details="' + category + ': "]\n\n')
