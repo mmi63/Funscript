@@ -27,7 +27,7 @@ def trimMusicScript(json_music, start_pts, end_pts):
         judge1 = [s < t1 < e for s, e in zip(start_pts, end_pts)]
         judge = any([max(z) for z in zip(judge0, judge1)])
         if judge:
-            del actions[i]
+            del actions[i+1]
     l_fin = len(json_music['actions'])
     print('Trimmed music script: from ' + str(l_init) + ' to ' + str(l_fin))
 
@@ -74,12 +74,13 @@ def normalize(file_name, threshold=2000):
     # average velocity calculation and check
     v_music = calcAvVelocity(json_music, start_pts, end_pts, music=True)
     v_sex_part = calcAvVelocity(json_sex_part, start_pts, end_pts, music=False)
-    if v_music < v_sex_part:
-        print('v_music < v_sex_part. No normalization is executed')
-        exit()
 
     # normalization
-    r = v_sex_part / v_music
+    if v_music < v_sex_part:
+        print('v_music < v_sex_part. No normalization is executed')
+        r = 1
+    else:
+        r = v_sex_part / v_music
     actions_music = json_music['actions']
     for action in actions_music:
         action['pos'] = int(0.5 * range * (1-r) + action['pos'] * r)
